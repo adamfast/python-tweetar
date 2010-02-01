@@ -1,0 +1,13 @@
+This project has a very simple purpose - post the current METAR according to the National Weather Service to twitter, where it can be subscribed to by any interested parties.
+
+This library is not intended to be used by its users or their end users for flight planning purposes. Remember your training and get your weather briefing from a certified source. If you don't know where to get weather, you can find a flight instructor at http://www.aopa.org/learntofly/findcfi/ and they will be happy to teach you about aviation weather and other aspects of aviation.
+
+Dependencies on your PythonPath:
+  python-twitter    http://code.google.com/p/python-twitter/
+
+Procedure:
+  * Edit tweetar.py and replace <station_id>, <twitter_user> and <twitter_pass> with the appropriate values. If you want to report multiple stations, copy and paste the line as many times as necessary and change the values as appropriate.
+
+  * retrieve_and_post({'station': '<station_id>', 'twitter_user': '<twitter_user>', 'twitter_password': '<twitter_pass>'})
+
+  * Schedule "/path/to/python /path/to/tweetar.py" to run. My recommendation is once an hour - if you follow the METARs of your local station you'll know when it updates. It's best to schedule a pull 5-10 minutes after that time, the update across NWS is not instant.  Scheduling it so far out will miss SPECI updates, but will be a good internet citizen since those occur so rarely on average (at least where I'm from). If you schedule it to run more often note Twitter's API will filter updates identical to the last post - so you won't flood the subscribers to the feed. But I wouldn't consider shifting that burden to them as totally fair. Could this script cache the last version and see if there's been a change? Sure, but you're still making a lot of noop requests to the NWS. Do what you will, that's my stance on it. Your mileage and experience may vary.
