@@ -6,9 +6,9 @@ Dependencies on your PythonPath:
   python-twitter    http://code.google.com/p/python-twitter/
 
 Procedure:
-  * Edit tweetar.py and replace <station_id>, <twitter_user> and <twitter_pass> with the appropriate values. If you want to report multiple stations, copy and paste the line as many times as necessary and change the values as appropriate.
+  * Edit tweetar.py and replace <station_id>, <twitter_user>, <twitter_pass> and (optionally) <hashtag> with the appropriate values. If you want to report multiple stations, copy and paste the line as many times as necessary and change the values as appropriate.
 
-  * retrieve_and_post({'station': '<station_id>', 'twitter_user': '<twitter_user>', 'twitter_password': '<twitter_pass>'})
+  * retrieve_and_post({'station': '<station_id>', 'twitter_user': '<twitter_user>', 'twitter_password': '<twitter_pass>', 'hashtag': '<hashtag>'})
 
   * Schedule "/path/to/python /path/to/tweetar.py" to run. My recommendation is once an hour - if you follow the METARs of your local station you'll know when it updates. It's best to schedule a pull 5-10 minutes after that time, the update across NWS is not instant.  Scheduling it so far out will miss SPECI updates, but will be a good internet citizen since those occur so rarely on average (at least where I'm from). If you schedule it to run more often note Twitter's API will filter updates identical to the last post - so you won't flood the subscribers to the feed. (However, I've seen it happening a lot and therefore added code to retrieve the latest post made and check it before posting.) Use common sense and don't make a lot of noop requests to the NWS. I run twice an hour to catch special METARs that occur occaisionally. Do what you will, that's my stance on it. Your mileage and experience may vary.
 
@@ -20,8 +20,8 @@ from tweetar import *
 
 # this is so I don't have to change the raw tweetar.py to my users/passwords
 
-retrieve_and_post({'station': 'station1', 'twitter_user': 'station1_user', 'twitter_password': 'station1_password'})
-retrieve_and_post({'station': 'station2', 'twitter_user': 'station2_user', 'twitter_password': 'station2_password'})
+retrieve_and_post({'station': 'station1', 'twitter_user': 'station1_user', 'twitter_password': 'station1_password', 'hashtag': '<hashtag>'})
+retrieve_and_post({'station': 'station2', 'twitter_user': 'station2_user', 'twitter_password': 'station2_password', 'hashtag': '<hashtag>'})
 END FILE
 
 I'm doing it this way so I don't accidentally commit usernames/passwords into public sight.

@@ -11,6 +11,9 @@ def retrieve_and_post(conf):
     response = urllib2.urlopen(request)
     metar = response.read().split('\n')[1] # NOAA includes a "real" timestamp as the first line of the response
 
+    if getattr(conf, 'hashtag', False):
+        metar = '%s #%s' % (metar, conf['hashtag'])
+
     api = twitter.Api(username=conf['twitter_user'], password=conf['twitter_password'])
 
     # get the last posted message and make sure it's different before attempting to post. Twitter isn't supposed to allow dupes through but I'm seeing it happen anyway
