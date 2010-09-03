@@ -4,11 +4,16 @@ This library is not intended to be used by its users or their end users for flig
 
 Dependencies on your PythonPath:
   python-twitter    http://code.google.com/p/python-twitter/
+  Note: python-twitter requires python-oauth2, follow its setup instructions
+
+Twitter Setup:
+  You will need to set up an application tied to a Twitter account for the application. Name it something unique, and make sure "Application Type" is set for "Client", "Default Access Type" is "Read & Write". You do not need to check "Use Twitter for login." Adding the application will get you an oauth_consumer_key and oauth_consumer_secret. Add those to your script, and edit get_access_token.py in python-twitter's code directory with them as well. Run get_access_token.py and visit the URL it provides you. Log in with the credentials of the Twitter account the METAR bot will be posting as, approve the access and copy the PIN Twitter gives you back. Enter that pin into the prompt from get_access_token.py and it will give you your access_token_key and access_token_secret to enter into your script as well.
+  Sorry the procedure sucks, this is the way Twitter has decided it has to be.
 
 Procedure:
-  * Edit tweetar.py and replace <station_id>, <twitter_user>, <twitter_pass> and (optionally) <hashtag> with the appropriate values. If you want to report multiple stations, copy and paste the line as many times as necessary and change the values as appropriate.
+  * Edit tweetar.py and replace <station_id>, <twitter_user>, <oauth_consumer_key>, <oauth_consumer_secret>, <access_token_key>, <access_token_secret> and (optionally) <hashtag> with the appropriate values. If you want to report multiple stations, copy and paste the line as many times as necessary and change the values as appropriate.
 
-  * retrieve_and_post({'station': '<station_id>', 'twitter_user': '<twitter_user>', 'twitter_password': '<twitter_pass>', 'hashtag': '<hashtag>'})
+  * retrieve_and_post({'station': '<station_id>', 'twitter_user': '<twitter_user>', 'oauth_consumer_key': '<oauth_consumer_key>', 'oauth_consumer_secret': '<oauth_consumer_secret>', 'access_token_key': '<access_token_key>', 'access_token_secret': '<access_token_secret>', 'hashtag': '<hashtag>'})
 
   * Schedule "/path/to/python /path/to/tweetar.py" to run. My recommendation is once an hour - if you follow the METARs of your local station you'll know when it updates. It's best to schedule a pull 5-10 minutes after that time, the update across NWS is not instant.  Scheduling it so far out will miss SPECI updates, but will be a good internet citizen since those occur so rarely on average (at least where I'm from). If you schedule it to run more often note Twitter's API will filter updates identical to the last post - so you won't flood the subscribers to the feed. (However, I've seen it happening a lot and therefore added code to retrieve the latest post made and check it before posting.) Use common sense and don't make a lot of noop requests to the NWS. I run twice an hour to catch special METARs that occur occaisionally. Do what you will, that's my stance on it. Your mileage and experience may vary.
 
@@ -20,8 +25,8 @@ from tweetar import *
 
 # this is so I don't have to change the raw tweetar.py to my users/passwords
 
-retrieve_and_post({'station': 'station1', 'twitter_user': 'station1_user', 'twitter_password': 'station1_password', 'hashtag': '<hashtag>'})
-retrieve_and_post({'station': 'station2', 'twitter_user': 'station2_user', 'twitter_password': 'station2_password', 'hashtag': '<hashtag>'})
+retrieve_and_post({'station': 'station1', 'twitter_user': 'station1_user', 'oauth_consumer_key': '<oauth_consumer_key>', 'oauth_consumer_secret': '<oauth_consumer_secret>', 'access_token_key': 'station1_access_token', 'access_token_secret': 'station1_token_secret', 'hashtag': '<hashtag>'})
+retrieve_and_post({'station': 'station2', 'twitter_user': 'station2_user', 'oauth_consumer_key': '<oauth_consumer_key>', 'oauth_consumer_secret': '<oauth_consumer_secret>', 'access_token_key': 'station2_access_token', 'access_token_secret': 'station2_token_secret', 'hashtag': '<hashtag>'})
 END FILE
 
 I'm doing it this way so I don't accidentally commit usernames/passwords into public sight.

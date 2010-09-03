@@ -14,7 +14,8 @@ def retrieve_and_post(conf):
     if conf.get('hashtag', False):
         metar = '%s #%s' % (metar, conf['hashtag'])
 
-    api = twitter.Api(username=conf['twitter_user'], password=conf['twitter_password'])
+    api = twitter.Api()
+    api.SetCredentials(username=conf['oauth_consumer_key'], password=conf['oauth_consumer_secret'], access_token_key=conf['access_token_key'], access_token_secret=conf['access_token_secret'])
 
     # get the last posted message and make sure it's different before attempting to post. Twitter isn't supposed to allow dupes through but I'm seeing it happen anyway
     past_statuses = api.GetUserTimeline(conf['twitter_user'])
@@ -25,4 +26,4 @@ def retrieve_and_post(conf):
         api.PostUpdate(metar)
 
 if __name__ == '__main__':
-    retrieve_and_post({'station': '<station_id>', 'twitter_user': '<twitter_user>', 'twitter_password': '<twitter_pass>'})
+    retrieve_and_post({'station': '<station_id>', 'twitter_user': '<twitter_user>', 'oauth_consumer_key': '<oauth_consumer_key>', 'oauth_consumer_secret': '<oauth_consumer_secret>', 'access_token_key': '<access_token_key>', 'access_token_secret': '<access_token_secret>'})
