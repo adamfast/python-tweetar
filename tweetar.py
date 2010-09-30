@@ -19,7 +19,11 @@ def retrieve_and_post(conf):
 
     # get the last posted message and make sure it's different before attempting to post. Twitter isn't supposed to allow dupes through but I'm seeing it happen anyway
     past_statuses = api.GetUserTimeline(conf['twitter_user'])
-    if past_statuses[-0].text != metar:
+
+    try:
+        if past_statuses[-0].text != metar: # the text has changed. Post!
+            post = True
+    except IndexError: # it's brand new, nothing there. Post!
         post = True
 
     if post:
