@@ -26,6 +26,13 @@ def retrieve_and_post(conf):
     except IndexError: # it's brand new, nothing there. Post!
         post = True
 
+    if conf.get('djtweetar_exception', False):
+        te = conf['djtweetar_exception']
+        te.metar_from_noaa = metar
+        te.last_twitter_post = past_statuses[-0].text or None
+        te.metar_posted = post
+        te.save()
+
     if post:
         api.PostUpdate(metar)
 
