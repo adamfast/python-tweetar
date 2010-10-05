@@ -21,7 +21,7 @@ def retrieve_and_post(conf):
     past_statuses = api.GetUserTimeline(conf['twitter_user'])
 
     try:
-        if past_statuses[-0].text != metar: # the text has changed. Post!
+        if past_statuses[-0].text != metar.strip(): # the text has changed. Post!
             post = True
     except IndexError: # it's brand new, nothing there. Post!
         post = True
